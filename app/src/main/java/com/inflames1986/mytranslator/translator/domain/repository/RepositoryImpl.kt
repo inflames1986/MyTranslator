@@ -1,15 +1,16 @@
 package com.inflames1986.mytranslator.translator.domain.repository
 
-import io.reactivex.Observable
 import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.repository.datasource.ICacheDataSource
-import com.inflames1986.mytranslator.translator.domain.repository.datasource.INetworkDataSource
+import com.inflames1986.mytranslator.translator.domain.repository.datasource.IDataSource
+import io.reactivex.Observable
+import javax.inject.Inject
 
-class RepositoryImpl(
-    private val cloud: INetworkDataSource,
-    private val cache: ICacheDataSource
-) : IRepository<DictionaryResult> {
+class RepositoryImpl @Inject constructor(
+
+    private val dataSource: IDataSource<DictionaryResult>,
+
+    ) : IRepository<DictionaryResult> {
 
     override fun getData(word: String): Observable<DictionaryResult> =
-        cloud.getData(word)
+        dataSource.getData(word)
 }

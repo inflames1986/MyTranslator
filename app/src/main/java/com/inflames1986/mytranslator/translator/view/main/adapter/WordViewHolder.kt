@@ -11,9 +11,8 @@ class WordViewHolder(
 ) : RecyclerView.ViewHolder(view) {
 
     private var _binding: RecyclerViewItemBinding? = null
-    val binding: RecyclerViewItemBinding
+    private val binding: RecyclerViewItemBinding
         get() = _binding!!
-
 
     fun bind(data: DictionaryEntry, delegate: WordAdapter.Delegate?) {
         with(binding) {
