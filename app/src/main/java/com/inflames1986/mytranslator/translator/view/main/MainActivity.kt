@@ -11,18 +11,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.inflames1986.mytranslator.R
 import com.inflames1986.mytranslator.databinding.ActivityMainBinding
-import com.inflames1986.mytranslator.translator.di.MainViewModelAssistedFactory
 import com.inflames1986.mytranslator.translator.domain.model.AppState
 import com.inflames1986.mytranslator.translator.domain.model.DictionaryEntry
 import com.inflames1986.mytranslator.translator.view.base.BaseActivity
 import com.inflames1986.mytranslator.translator.view.main.adapter.WordAdapter
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
+
 
 class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Delegate {
 
@@ -30,15 +29,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Deleg
         private const val INPUT_METHOD_MANAGER_FLAGS = 0
     }
 
-    @Inject
-    lateinit var assistedFactory: MainViewModelAssistedFactory
-
-    override lateinit var model: MainViewModel
+    override val model: MainViewModel by stateViewModel()
 
     private var _binding: ActivityMainBinding? = null
     val binding: ActivityMainBinding
         get() = _binding!!
-
 
     private val wordAdapter by lazy { WordAdapter(this) }
 
@@ -62,9 +57,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Deleg
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModelFactory = assistedFactory.create(this)
-
-        model = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
         model.networkStateLiveData().observe(this@MainActivity, Observer<Boolean> {
             isNetworkAvailable = it
@@ -83,7 +75,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Deleg
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (view.text.isNotEmpty()) {
                         if (isNetworkAvailable) {
-                            model.getData(view.text.toString())
+                            model.getData(view.text.toString(), isNetworkAvailable)
                             hideKeyboardForTextView()
                             true
                         } else {
@@ -108,7 +100,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Deleg
             find.isEnabled = false
             find.setOnClickListener {
                 if (isNetworkAvailable) {
-                    model.getData(binding.searchEditText.text.toString())
+                    model.getData(binding.searchEditText.text.toString(), isNetworkAvailable)
                     hideKeyboardForTextView()
                 } else {
                     hideKeyboardForTextView()
@@ -176,7 +168,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Deleg
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
             if (isNetworkAvailable) {
-                model.getData(binding.searchEditText.text.toString())
+                model.getData(binding.searchEditText.text.toString(), isNetworkAvailable)
                 hideKeyboardForTextView()
             } else {
                 hideKeyboardForTextView()
@@ -218,7 +210,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>(), WordAdapter.Deleg
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         model.saveLastWord(binding.searchEditText.text.toString())
-        outState.putString("TEST", "TESTVALUE")
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

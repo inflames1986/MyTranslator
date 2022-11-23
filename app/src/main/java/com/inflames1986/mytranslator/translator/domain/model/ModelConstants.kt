@@ -2,7 +2,6 @@ package com.inflames1986.mytranslator.translator.domain.model
 
 object ModelConstants {
 
-
     const val MODEL_GENDER = "gen"
 
     const val MODEL_PART_OF_SPEECH = "pos"
