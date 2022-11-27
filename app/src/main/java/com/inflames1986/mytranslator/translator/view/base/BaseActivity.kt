@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.inflames1986.mytranslator.R
 import com.inflames1986.mytranslator.translator.domain.model.AppState
 import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
+import com.inflames1986.mytranslator.translator.viewmodel.BaseViewModel
+import com.inflames1986.mytranslator.translator.viewmodel.IInteractor
 
 
 abstract class BaseActivity<T : AppState, I : IInteractor<DictionaryResult>> :

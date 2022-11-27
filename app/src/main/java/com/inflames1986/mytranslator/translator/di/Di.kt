@@ -11,8 +11,10 @@ import com.inflames1986.mytranslator.translator.domain.repository.RepositoryImpl
 import com.inflames1986.mytranslator.translator.domain.repository.datasource.CacheDataSourceImpl
 import com.inflames1986.mytranslator.translator.domain.repository.datasource.NetworkDataSourceImpl
 import com.inflames1986.mytranslator.translator.utils.BASE_URL
+import com.inflames1986.mytranslator.translator.utils.network.NetworkStateObservable
 import com.inflames1986.mytranslator.translator.view.main.MainInteractor
 import com.inflames1986.mytranslator.translator.view.main.MainViewModel
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
