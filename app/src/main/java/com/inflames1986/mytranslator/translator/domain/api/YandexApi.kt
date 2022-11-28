@@ -8,11 +8,8 @@ import retrofit2.http.Query
 import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
 
 interface YandexApi {
-    /**
-     * Получить перевод
-     * @param targetWord Слово, которое необходимо перевести
-     * @return DictionaryResult
-     */
+
     @GET("dicservice.json/lookup?key=${"y0_AgAAAABJhbtjAATuwQAAAADTghglFtnSd2LOQ7SCpve7j1TLq-3OQVA"}&lang=en-ru")
     fun search(@Query("text") targetWord: String): Observable<DictionaryResult>
 }
+
