@@ -1,26 +1,22 @@
 package com.inflames1986.mytranslator.translator.domain.model
 
 import com.google.gson.annotations.SerializedName
-import com.inflames1986.mytranslator.translator.domain.model.ModelConstants.MODEL_FR
-import com.inflames1986.mytranslator.translator.domain.model.ModelConstants.MODEL_GENDER
-import com.inflames1986.mytranslator.translator.domain.model.ModelConstants.MODEL_NUM
-import com.inflames1986.mytranslator.translator.domain.model.ModelConstants.MODEL_PART_OF_SPEECH
-import com.inflames1986.mytranslator.translator.domain.model.ModelConstants.MODEL_TEXT
+import com.inflames1986.mytranslator.translator.domain.model.ModelConstants
 
 data class Synonym(
 
-    @SerializedName(MODEL_FR)
+    @SerializedName(ModelConstants.MODEL_FR)
     val fr: Int,
 
-    @SerializedName(MODEL_GENDER)
+    @SerializedName(ModelConstants.MODEL_GENDER)
     val gen: String,
 
-    @SerializedName(MODEL_PART_OF_SPEECH)
+    @SerializedName(ModelConstants.MODEL_PART_OF_SPEECH)
     val pos: String,
 
-    @SerializedName(MODEL_TEXT)
+    @SerializedName(ModelConstants.MODEL_TEXT)
     val text: String,
 
-    @SerializedName(MODEL_NUM)
+    @SerializedName(ModelConstants.MODEL_NUM)
     val num: String = ""
 )

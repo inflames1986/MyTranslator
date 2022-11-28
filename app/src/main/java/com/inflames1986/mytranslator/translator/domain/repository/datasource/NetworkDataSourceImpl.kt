@@ -3,7 +3,6 @@ package com.inflames1986.mytranslator.translator.domain.repository.datasource
 import com.inflames1986.mytranslator.translator.domain.api.YandexApi
 import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
 
-
 class NetworkDataSourceImpl(private val yandexApi: YandexApi) :
     IDataSource<DictionaryResult> {
 

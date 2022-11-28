@@ -1,21 +1,24 @@
-package com.inflames1986.mytranslator.translator.viewmodel
+package com.inflames1986.mytranslator.translator.view.favourite
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.inflames1986.mytranslator.translator.domain.model.AppState
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.*
+import com.inflames1986.mytranslator.translator.domain.model.AppState
 
-abstract class BaseViewModel<T : AppState>(
-    protected val liveDataForViewToObserve: MutableLiveData<T> = MutableLiveData(),
+abstract class BaseFavouriteViewModel<T : AppState>(
+    protected val favouriteWordsLiveData: MutableLiveData<T> = MutableLiveData(),
     protected val compositeDisposable: CompositeDisposable = CompositeDisposable(),
-    protected val liveDataForNetworkState: MutableLiveData<Boolean> = MutableLiveData(),
-) : ViewModel() {
+    protected val clearLiveData: MutableLiveData<T> = MutableLiveData(),
+) : ViewModel(), LifecycleObserver {
 
     companion object {
         private const val CANCEL_MESSAGE = "Уже не актуально."
     }
+
+    abstract fun getData()
+    abstract fun clearFavourite()
 
     protected val viewModelCoroutineScope = CoroutineScope(
         Dispatchers.IO
@@ -23,10 +26,6 @@ abstract class BaseViewModel<T : AppState>(
                 + CoroutineExceptionHandler { coroutineContext, throwable ->
             handleError(throwable)
         })
-
-    abstract fun getData(word: String, isOnline: Boolean)
-
-    open fun getNetworkState(): LiveData<Boolean> = liveDataForNetworkState
 
     override fun onCleared() {
         super.onCleared()

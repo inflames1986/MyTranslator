@@ -2,25 +2,24 @@ package com.inflames1986.mytranslator.translator.view.main.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.inflames1986.mytranslator.databinding.RecyclerViewItemBinding
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryEntry
+import com.inflames1986.mytranslator.databinding.MainItemBinding
+import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
 import com.inflames1986.mytranslator.translator.extensions.click
 
 class WordViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view) {
 
-    private var _binding: RecyclerViewItemBinding? = null
-    val binding: RecyclerViewItemBinding
+    private var _binding: MainItemBinding? = null
+    val binding: MainItemBinding
         get() = _binding!!
 
-    fun bind(data: DictionaryEntry, delegate: WordAdapter.Delegate?) {
+    fun bind(data: WordTranslate, delegate: WordAdapter.Delegate?) {
         with(binding) {
-            "${data.partOfSpeech} - [${data.transcription}]".also { extensionInfo.text = it }
-            headerTextviewRecyclerItem.text = data.text
-            descriptionTextviewRecyclerItem.text =
-                data.translatesList.joinToString(separator = "\n")
+            header.text = data.word
+            description.text = data.translate
             binding.root.click { delegate?.onItemPicked(data) }
+            binding.favourite.click { delegate?.onFavouritePicked(data) }
         }
     }
 }
