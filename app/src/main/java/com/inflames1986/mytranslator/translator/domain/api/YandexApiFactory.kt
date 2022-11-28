@@ -2,6 +2,7 @@ package com.inflames1986.mytranslator.translator.domain.api
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.inflames1986.mytranslator.utils.BASE_URL
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,7 +16,7 @@ object YandexApiFactory {
 
     fun create(): YandexApi =
         Retrofit.Builder()
-            .baseUrl("\"https://translate.api.cloud.yandex.net/")
+            .baseUrl(BASE_URL)
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(YandexApiInterceptor)

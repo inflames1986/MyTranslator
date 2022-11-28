@@ -1,5 +1,6 @@
 package com.inflames1986.mytranslator.translator.domain.api
 
+import com.inflames1986.mytranslator.utils.API_TOKEN
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -16,7 +17,7 @@ object YandexApiInterceptor : Interceptor {
                 .newBuilder()
                 .header(
                     HEADER_NAME,
-                    Credentials.basic(USER_NAME, "y0_AgAAAABJhbtjAATuwQAAAADTghglFtnSd2LOQ7SCpve7j1TLq-3OQVA")
+                    Credentials.basic(USER_NAME, API_TOKEN)
                 )
                 .build()
         )
