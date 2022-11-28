@@ -8,11 +8,7 @@ import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
 import com.inflames1986.mytranslator.translator.utils.API_TOKEN
 
 interface YandexApi {
-    /**
-     * Получить перевод
-     * @param targetWord Слово, которое необходимо перевести
-     * @return DictionaryResult
-     */
+
     @GET("dicservice.json/lookup?key=${API_TOKEN}&lang=en-ru")
     fun search(@Query("text") targetWord: String): Observable<DictionaryResult>
 }
