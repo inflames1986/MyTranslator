@@ -96,5 +96,7 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.0")
 
     implementation ("com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01")
+
+    implementation (project(":screendetail"))
 }
 
