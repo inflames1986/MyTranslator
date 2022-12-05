@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "My Translator"
 include ':app'
 include ':screendetail'
+include ':mylibrary'
+include ':domain'
+include ':utils'

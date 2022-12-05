@@ -1,4 +1,4 @@
-package com.inflames1986.mytranslator.translator.utils
+package com.inflames1986.utils
 
 import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
 import com.inflames1986.mytranslator.translator.domain.storage.entity.WordFavourite

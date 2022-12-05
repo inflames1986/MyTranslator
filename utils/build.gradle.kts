@@ -1,9 +1,6 @@
 plugins {
-    id ("com.android.application")
-    id ("org.jetbrains.kotlin.android")
-    id ("kotlin-android")
-    id ("kotlin-kapt")
-    id ("kotlin-parcelize")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -14,10 +11,7 @@ android {
         targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding = true
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -46,13 +40,4 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
-
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    implementation ("com.github.bumptech.glide:okhttp3-integration:4.12.0")
-    kapt ("com.github.bumptech.glide:compiler:4.12.0")
-
-    implementation ("com.github.terrakok:cicerone:7.0")
-    implementation(project(":domain"))
-    implementation(project(":utils"))
 }

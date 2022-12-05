@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.inflames1986.mytranslator.R
-import com.inflames1986.mytranslator.databinding.FragmentDetailBinding
 import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
-import com.inflames1986.mytranslator.translator.extensions.arguments
+import com.inflames1986.utils.extensions.arguments
+import com.inflames1986.screendetail.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
