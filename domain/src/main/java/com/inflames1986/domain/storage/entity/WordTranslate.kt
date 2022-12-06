@@ -1,8 +1,9 @@
-package com.inflames1986.mytranslator.translator.domain.storage.entity
+package com.inflames1986.domain.storage.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.inflames1986.mytranslator.translator.domain.storage.entity.EntityConstants
 import kotlinx.parcelize.Parcelize
 
 @Entity(

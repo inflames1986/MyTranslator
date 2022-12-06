@@ -1,8 +1,8 @@
 package com.inflames1986.mytranslator.translator.domain.repository
 
 import com.inflames1986.mytranslator.translator.domain.repository.datasource.IDataSourceLocal
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordFavourite
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
+import com.inflames1986.domain.storage.entity.WordFavourite
+import com.inflames1986.domain.storage.entity.WordTranslate
 
 class RepositoryLocalImpl(private val dataSource: IDataSourceLocal) : IRepositoryLocal {
     override suspend fun saveToDb(word: WordTranslate) {

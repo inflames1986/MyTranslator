@@ -2,8 +2,8 @@ package com.inflames1986.mytranslator.translator.domain.storage
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordFavourite
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
+import com.inflames1986.domain.storage.entity.WordFavourite
+import com.inflames1986.domain.storage.entity.WordTranslate
 
 
 @Database(

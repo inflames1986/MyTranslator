@@ -17,17 +17,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
+import com.inflames1986.domain.storage.entity.WordTranslate
 import com.inflames1986.mytranslator.R
 import com.inflames1986.mytranslator.databinding.FragmentMainBinding
-import com.inflames1986.mytranslator.databinding.MainItemBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.inflames1986.mytranslator.translator.domain.model.AppState
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
-import com.inflames1986.mytranslator.translator.utils.mapToListWordTranslate
-import com.inflames1986.mytranslator.translator.view.detail.DetailScreen
+
+
 import com.inflames1986.mytranslator.translator.view.main.adapter.WordAdapter
+import com.inflames1986.screendetail.DetailScreen
 
 class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
 
@@ -158,10 +156,10 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
             isNetworkAvailable = it
         })
         model.getNetworkState()
-        model.translateLiveData().observe(requireActivity(), Observer<AppState> {
+        model.translateLiveData().observe(requireActivity(), Observer<com.inflames1986.model.data.AppState> {
             when (it) {
-                is AppState.Success -> {
-                    if (it.data == null || (it.data as DictionaryResult).dictionaryEntryList.isEmpty()) {
+                is com.inflames1986.model.data.AppState.Success -> {
+                    if (it.data == null || (it.data as com.inflames1986.model.data.DictionaryResult).dictionaryEntryList.isEmpty()) {
                         showErrorScreen(getString(R.string.empty_server_response_on_success))
                     } else {
                         showViewSuccess()
@@ -169,7 +167,7 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                         model.saveToHistory(it.data)
                     }
                 }
-                is AppState.Loading -> {
+                is com.inflames1986.model.data.AppState.Loading -> {
                     showViewLoading()
                     with(binding) {
                         if (it.progress != null) {
@@ -182,36 +180,36 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                         }
                     }
                 }
-                is AppState.Error -> {
+                is com.inflames1986.model.data.AppState.Error -> {
                     showErrorScreen(it.error.message)
                 }
             }
         })
 
-        model.findHistoryLiveData().observe(requireActivity(), Observer<AppState>
+        model.findHistoryLiveData().observe(requireActivity(), Observer<com.inflames1986.model.data.AppState>
         {
             when (it) {
-                is AppState.Success -> {
+                is com.inflames1986.model.data.AppState.Success -> {
                     if (it?.data != null) {
                         router.navigateTo(
                             DetailScreen(word = (it.data as WordTranslate))
                         )
                     }
                 }
-                is AppState.Loading -> {
+                is com.inflames1986.model.data.AppState.Loading -> {
                     showViewLoading()
                     with(binding) {
                         if (it.progress != null) {
                             progressBarHorizontal.isVisible = true
                             progressBarRound.isVisible = false
-                            progressBarHorizontal.progress = it.progress
+                            progressBarHorizontal.progress = it.progress!!
                         } else {
                             progressBarHorizontal.isVisible = false
                             progressBarRound.isVisible = true
                         }
                     }
                 }
-                is AppState.Error -> {
+                is com.inflames1986.model.data.AppState.Error -> {
                     binding.loadingFrame.isVisible = false
                     showMessage {
                         Toast.makeText(
@@ -224,9 +222,9 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
             }
         })
 
-        model.favouriteLiveData().observe(requireActivity(), Observer<AppState> {
+        model.favouriteLiveData().observe(requireActivity(), Observer<com.inflames1986.model.data.AppState> {
             when (it) {
-                is AppState.Success -> {
+                is com.inflames1986.model.data.AppState.Success -> {
                     if ((it?.data as Long) > 0) {
                         showViewSuccess()
                         showMessage {
@@ -238,20 +236,20 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                         }
                     }
                 }
-                is AppState.Loading -> {
+                is com.inflames1986.model.data.AppState.Loading -> {
                     showViewLoading()
                     with(binding) {
                         if (it.progress != null) {
                             progressBarHorizontal.isVisible = true
                             progressBarRound.isVisible = false
-                            progressBarHorizontal.progress = it.progress
+                            progressBarHorizontal.progress = it.progress!!
                         } else {
                             progressBarHorizontal.isVisible = false
                             progressBarRound.isVisible = true
                         }
                     }
                 }
-                is AppState.Error -> {
+                is com.inflames1986.model.data.AppState.Error -> {
                     binding.loadingFrame.isVisible = false
                     showMessage {
                         Toast.makeText(

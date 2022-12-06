@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.*
-import com.inflames1986.mytranslator.translator.domain.model.AppState
+import com.inflames1986.model.data.AppState
 import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
 
-abstract class BaseMainViewModel<T : AppState>(
+abstract class BaseMainViewModel<T : com.inflames1986.model.data.AppState>(
     protected val translateLiveData: MutableLiveData<T> = MutableLiveData(),
     protected val compositeDisposable: CompositeDisposable = CompositeDisposable(),
     protected val networkStateLiveData: MutableLiveData<Boolean> = MutableLiveData(),

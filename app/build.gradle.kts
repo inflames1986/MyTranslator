@@ -98,5 +98,7 @@ dependencies {
     implementation ("com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01")
 
     implementation (project(":screendetail"))
+    implementation(project(":domain"))
+    implementation(project(":model"))
 }
 

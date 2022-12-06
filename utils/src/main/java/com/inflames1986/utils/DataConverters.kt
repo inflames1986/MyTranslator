@@ -1,8 +1,8 @@
 package com.inflames1986.utils
 
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordFavourite
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
+import com.inflames1986.model.data.DictionaryResult
+import com.inflames1986.domain.storage.entity.WordFavourite
+import com.inflames1986.domain.storage.entity.WordTranslate
 
 
 const val DEFAULT_IMAGE_URL =

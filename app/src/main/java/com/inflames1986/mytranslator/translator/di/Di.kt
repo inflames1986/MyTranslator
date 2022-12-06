@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder
 import com.inflames1986.mytranslator.BuildConfig
 import com.inflames1986.mytranslator.translator.domain.api.YandexApi
 import com.inflames1986.mytranslator.translator.domain.api.YandexApiInterceptor
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
+import com.inflames1986.model.data.DictionaryResult
 import com.inflames1986.mytranslator.translator.domain.repository.IRepository
 import com.inflames1986.mytranslator.translator.domain.repository.IRepositoryLocal
 import com.inflames1986.mytranslator.translator.domain.repository.RepositoryImpl
@@ -86,7 +86,7 @@ object Di {
     }
 
     fun repositoryModule() = module {
-        single<IRepository<DictionaryResult>> {
+        single<IRepository<com.inflames1986.model.data.DictionaryResult>> {
             RepositoryImpl(
                 dataSource = NetworkDataSourceImpl(
                     yandexApi = get()

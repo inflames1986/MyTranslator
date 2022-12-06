@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.inflames1986.mytranslator.translator.domain.model.AppState
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
+import com.inflames1986.model.data.AppState
+import com.inflames1986.model.data.DictionaryResult
 import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
 import com.inflames1986.mytranslator.translator.utils.mapToListWordTranslate
 import com.inflames1986.mytranslator.translator.utils.mapTranslateToFavourite
@@ -16,7 +16,7 @@ import com.inflames1986.mytranslator.translator.utils.network.NetworkStateObserv
 class MainViewModel(
     private val interactor: MainInteractor,
     private val networkState: NetworkStateObservable,
-) : BaseMainViewModel<AppState>() {
+) : BaseMainViewModel<com.inflames1986.model.data.AppState>() {
 
     companion object {
         //Задержка для экспериментов с корутинами
@@ -25,7 +25,7 @@ class MainViewModel(
         private const val EMPTY_RESULT_MESSAGE = "Отсутсвуют данные. Измените/повторите запрос."
     }
 
-    fun translateLiveData(): LiveData<AppState> {
+    fun translateLiveData(): LiveData<com.inflames1986.model.data.AppState> {
         return translateLiveData
     }
 
@@ -33,66 +33,66 @@ class MainViewModel(
         return networkStateLiveData
     }
 
-    fun findHistoryLiveData(): LiveData<AppState> {
+    fun findHistoryLiveData(): LiveData<com.inflames1986.model.data.AppState> {
         return historyLiveData
     }
 
-    fun favouriteLiveData(): LiveData<AppState> {
+    fun favouriteLiveData(): LiveData<com.inflames1986.model.data.AppState> {
         return favouritesLiveData
     }
 
     override fun findInHistory(word: String) {
-        historyLiveData.postValue(AppState.Loading(null))
+        historyLiveData.postValue(com.inflames1986.model.data.AppState.Loading(null))
         cancelJob()
 
         viewModelCoroutineScope.launch {
             val result = interactor.repositoryLocal.findInHistoryByWord(word)
 
             if (result?.word != null) {
-                historyLiveData.postValue(AppState.Success(result))
+                historyLiveData.postValue(com.inflames1986.model.data.AppState.Success(result))
             } else {
-                historyLiveData.postValue(AppState.Error(Exception(EMPTY_RESULT_MESSAGE)))
+                historyLiveData.postValue(com.inflames1986.model.data.AppState.Error(Exception(EMPTY_RESULT_MESSAGE)))
             }
         }
     }
 
     override fun saveToFavourite(word: WordTranslate) {
-        favouritesLiveData.postValue(AppState.Loading(null))
+        favouritesLiveData.postValue(com.inflames1986.model.data.AppState.Loading(null))
         cancelJob()
 
         viewModelCoroutineScope.launch {
             val result =
                 interactor.repositoryLocal.insertWordToFavourite(mapTranslateToFavourite(word))
             if (result > 0) {
-                favouritesLiveData.postValue(AppState.Success(result))
+                favouritesLiveData.postValue(com.inflames1986.model.data.AppState.Success(result))
             } else {
-                favouritesLiveData.postValue(AppState.Error(Exception(EMPTY_RESULT_MESSAGE)))
+                favouritesLiveData.postValue(com.inflames1986.model.data.AppState.Error(Exception(EMPTY_RESULT_MESSAGE)))
             }
         }
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-        translateLiveData.postValue(AppState.Loading(null))
+        translateLiveData.postValue(com.inflames1986.model.data.AppState.Loading(null))
         cancelJob()
 
         viewModelCoroutineScope.launch {
             delay(DELAY_LOADING)
             val result = interactor.getData(word, isOnline)
             if (result.dictionaryEntryList.isNotEmpty()) {
-                translateLiveData.postValue(AppState.Success(result))
+                translateLiveData.postValue(com.inflames1986.model.data.AppState.Success(result))
             } else {
-                translateLiveData.postValue(AppState.Error(Exception(EMPTY_RESULT_MESSAGE)))
+                translateLiveData.postValue(com.inflames1986.model.data.AppState.Error(Exception(EMPTY_RESULT_MESSAGE)))
             }
         }
     }
 
     override fun handleError(error: Throwable) {
-        translateLiveData.postValue(AppState.Error(error))
-        historyLiveData.postValue(AppState.Error(error))
+        translateLiveData.postValue(com.inflames1986.model.data.AppState.Error(error))
+        historyLiveData.postValue(com.inflames1986.model.data.AppState.Error(error))
     }
 
     override fun onCleared() {
-        historyLiveData.postValue(AppState.Success(null))
+        historyLiveData.postValue(com.inflames1986.model.data.AppState.Success(null))
         super.onCleared()
     }
 
@@ -107,7 +107,7 @@ class MainViewModel(
         return super.getNetworkState()
     }
 
-    fun saveToHistory(translates: DictionaryResult) {
+    fun saveToHistory(translates: com.inflames1986.model.data.DictionaryResult) {
         viewModelCoroutineScope.launch {
             interactor
                 .repositoryLocal
@@ -118,6 +118,6 @@ class MainViewModel(
     fun reset() {
         cancelJob()
         compositeDisposable.clear()
-        historyLiveData.postValue(AppState.Success(null))
+        historyLiveData.postValue(com.inflames1986.model.data.AppState.Success(null))
     }
 }
