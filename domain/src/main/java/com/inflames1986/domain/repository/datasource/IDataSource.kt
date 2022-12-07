@@ -1,4 +1,4 @@
-package com.inflames1986.mytranslator.translator.domain.repository.datasource
+package com.inflames1986.domain.repository.datasource
 
 interface IDataSource<T> {
 

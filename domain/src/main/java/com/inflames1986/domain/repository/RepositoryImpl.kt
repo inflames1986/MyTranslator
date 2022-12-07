@@ -1,7 +1,8 @@
-package com.inflames1986.mytranslator.translator.domain.repository
+package com.inflames1986.domain.repository
 
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.repository.datasource.IDataSource
+import com.inflames1986.domain.repository.datasource.IDataSource
+import com.inflames1986.model.data.DictionaryResult
+
 
 class RepositoryImpl(
     private val dataSource: IDataSource<DictionaryResult>

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
 import com.inflames1986.domain.storage.entity.WordTranslate
+import com.inflames1986.model.data.DictionaryResult
 import com.inflames1986.mytranslator.R
 import com.inflames1986.mytranslator.databinding.FragmentMainBinding
 import org.koin.android.ext.android.inject
@@ -26,6 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 import com.inflames1986.mytranslator.translator.view.main.adapter.WordAdapter
 import com.inflames1986.screendetail.DetailScreen
+import com.inflames1986.utils.mapToListWordTranslate
 
 class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
 
@@ -163,8 +165,8 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                         showErrorScreen(getString(R.string.empty_server_response_on_success))
                     } else {
                         showViewSuccess()
-                        wordAdapter.setData(ArrayList(mapToListWordTranslate(it.data)))
-                        model.saveToHistory(it.data)
+                        wordAdapter.setData(ArrayList(mapToListWordTranslate(it.data as DictionaryResult)))
+                        model.saveToHistory(it.data as DictionaryResult)
                     }
                 }
                 is com.inflames1986.model.data.AppState.Loading -> {
@@ -173,7 +175,7 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                         if (it.progress != null) {
                             progressBarHorizontal.isVisible = true
                             progressBarRound.isVisible = false
-                            progressBarHorizontal.progress = it.progress
+                            progressBarHorizontal.progress = it.progress!!
                         } else {
                             progressBarHorizontal.isVisible = false
                             progressBarRound.isVisible = true

@@ -1,5 +1,6 @@
 package com.inflames1986.mytranslator.translator.domain.repository
 
+import com.inflames1986.domain.repository.IRepositoryLocal
 import com.inflames1986.mytranslator.translator.domain.repository.datasource.IDataSourceLocal
 import com.inflames1986.domain.storage.entity.WordFavourite
 import com.inflames1986.domain.storage.entity.WordTranslate

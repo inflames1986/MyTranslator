@@ -7,8 +7,8 @@ import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.inflames1986.mytranslator.R
 import com.inflames1986.mytranslator.databinding.ActivityMainBinding
-import com.inflames1986.mytranslator.translator.view.favourite.FavouriteScreen
-import com.inflames1986.mytranslator.translator.view.history.HistoryScreen
+import com.inflames1986.screenfavourite.FavouriteScreen
+import com.inflames1986.screenhistory.HistoryScreen
 import org.koin.android.ext.android.inject
 import com.inflames1986.mytranslator.translator.view.main.MainScreen
 

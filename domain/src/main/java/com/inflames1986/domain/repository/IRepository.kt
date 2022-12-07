@@ -1,4 +1,4 @@
-package com.inflames1986.mytranslator.translator.domain.repository
+package com.inflames1986.domain.repository
 
 interface IRepository<T> {
 

@@ -1,5 +1,5 @@
 plugins {
-    id ("com.android.application")
+    id ("com.android.library")
     id ("org.jetbrains.kotlin.android")
     id ("kotlin-android")
     id ("kotlin-kapt")
@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 32
+        targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -93,4 +93,5 @@ dependencies {
 
     implementation ("com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01")
 
+    implementation (project(":model"))
 }

@@ -6,25 +6,25 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.inflames1986.domain.BASE_URL
+import com.inflames1986.domain.api.YandexApi
 import com.inflames1986.mytranslator.BuildConfig
-import com.inflames1986.mytranslator.translator.domain.api.YandexApi
-import com.inflames1986.mytranslator.translator.domain.api.YandexApiInterceptor
+import com.inflames1986.domain.api.YandexApiInterceptor
+import com.inflames1986.domain.repository.IRepository
+import com.inflames1986.domain.repository.IRepositoryLocal
 import com.inflames1986.model.data.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.repository.IRepository
-import com.inflames1986.mytranslator.translator.domain.repository.IRepositoryLocal
-import com.inflames1986.mytranslator.translator.domain.repository.RepositoryImpl
+import com.inflames1986.domain.repository.RepositoryImpl
 import com.inflames1986.mytranslator.translator.domain.repository.RepositoryLocalImpl
 import com.inflames1986.mytranslator.translator.domain.repository.datasource.CacheDataSourceImpl
-import com.inflames1986.mytranslator.translator.domain.repository.datasource.NetworkDataSourceImpl
+import com.inflames1986.domain.repository.datasource.NetworkDataSourceImpl
 import com.inflames1986.mytranslator.translator.domain.storage.WordStorage
-import com.inflames1986.mytranslator.translator.utils.BASE_URL
-import com.inflames1986.mytranslator.translator.utils.network.NetworkStateObservable
-import com.inflames1986.mytranslator.translator.view.favourite.FavouriteInteractor
-import com.inflames1986.mytranslator.translator.view.favourite.FavouriteViewModel
-import com.inflames1986.mytranslator.translator.view.history.HistoryInteractor
-import com.inflames1986.mytranslator.translator.view.history.HistoryViewModel
+import com.inflames1986.screenfavourite.FavouriteInteractor
+import com.inflames1986.screenfavourite.FavouriteViewModel
+import com.inflames1986.screenhistory.HistoryInteractor
+import com.inflames1986.screenhistory.HistoryViewModel
 import com.inflames1986.mytranslator.translator.view.main.MainInteractor
 import com.inflames1986.mytranslator.translator.view.main.MainViewModel
+import com.inflames1986.utils.network.NetworkStateObservable
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -86,7 +86,7 @@ object Di {
     }
 
     fun repositoryModule() = module {
-        single<IRepository<com.inflames1986.model.data.DictionaryResult>> {
+        single<IRepository<DictionaryResult>> {
             RepositoryImpl(
                 dataSource = NetworkDataSourceImpl(
                     yandexApi = get()

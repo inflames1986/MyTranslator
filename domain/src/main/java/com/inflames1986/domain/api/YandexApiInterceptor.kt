@@ -1,6 +1,6 @@
-package com.inflames1986.mytranslator.translator.domain.api
+package com.inflames1986.domain.api
 
-import com.inflames1986.mytranslator.translator.utils.API_TOKEN
+import com.inflames1986.domain.API_TOKEN
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response

@@ -1,7 +1,7 @@
 package com.inflames1986.mytranslator.translator.view.main
 
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordFavourite
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
+import com.inflames1986.domain.storage.entity.WordFavourite
+import com.inflames1986.domain.storage.entity.WordTranslate
 
 interface IMainInteractor<T> {
 

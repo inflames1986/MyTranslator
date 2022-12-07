@@ -1,17 +1,18 @@
 package com.inflames1986.mytranslator.translator.view.main
 
+import com.inflames1986.domain.repository.IRepositoryLocal
+import com.inflames1986.domain.storage.entity.WordFavourite
+import com.inflames1986.domain.storage.entity.WordTranslate
 import com.inflames1986.model.data.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.repository.IRepository
-import com.inflames1986.mytranslator.translator.domain.repository.IRepositoryLocal
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordFavourite
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
+import com.inflames1986.domain.repository.IRepository
+
 
 class MainInteractor(
-    val repositoryRemote: IRepository<com.inflames1986.model.data.DictionaryResult>,
+    val repositoryRemote: IRepository<DictionaryResult>,
     val repositoryLocal: IRepositoryLocal
-) : IMainInteractor<com.inflames1986.model.data.DictionaryResult> {
+) : IMainInteractor<DictionaryResult> {
 
-    override suspend fun getData(word: String, fromRemoteSource: Boolean): com.inflames1986.model.data.DictionaryResult =
+    override suspend fun getData(word: String, fromRemoteSource: Boolean): DictionaryResult =
         repositoryRemote
             .getData(word)
 

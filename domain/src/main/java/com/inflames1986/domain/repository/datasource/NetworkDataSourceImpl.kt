@@ -1,7 +1,8 @@
-package com.inflames1986.mytranslator.translator.domain.repository.datasource
+package com.inflames1986.domain.repository.datasource
 
 import com.inflames1986.domain.api.YandexApi
-import com.inflames1986.mytranslator.translator.domain.model.DictionaryResult
+import com.inflames1986.model.data.DictionaryResult
+
 
 class NetworkDataSourceImpl(private val yandexApi: YandexApi) :
     IDataSource<DictionaryResult> {

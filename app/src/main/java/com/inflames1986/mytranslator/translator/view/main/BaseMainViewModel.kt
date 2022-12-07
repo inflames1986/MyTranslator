@@ -3,10 +3,9 @@ package com.inflames1986.mytranslator.translator.view.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.inflames1986.domain.storage.entity.WordTranslate
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.*
-import com.inflames1986.model.data.AppState
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
 
 abstract class BaseMainViewModel<T : com.inflames1986.model.data.AppState>(
     protected val translateLiveData: MutableLiveData<T> = MutableLiveData(),

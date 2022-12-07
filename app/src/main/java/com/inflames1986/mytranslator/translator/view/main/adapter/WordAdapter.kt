@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.inflames1986.domain.storage.entity.WordTranslate
 import com.inflames1986.mytranslator.R
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
 
 class WordAdapter(
     private val delegate: Delegate?

@@ -1,17 +1,14 @@
 package com.inflames1986.mytranslator.translator.view.main
 
 import androidx.lifecycle.LiveData
+import com.inflames1986.domain.storage.entity.WordTranslate
+import com.inflames1986.utils.mapToListWordTranslate
+import com.inflames1986.utils.mapTranslateToFavourite
+import com.inflames1986.utils.network.NetworkState
+import com.inflames1986.utils.network.NetworkStateObservable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.inflames1986.model.data.AppState
-import com.inflames1986.model.data.DictionaryResult
-import com.inflames1986.mytranslator.translator.domain.storage.entity.WordTranslate
-import com.inflames1986.mytranslator.translator.utils.mapToListWordTranslate
-import com.inflames1986.mytranslator.translator.utils.mapTranslateToFavourite
-import com.inflames1986.mytranslator.translator.utils.network.NetworkState
-import com.inflames1986.mytranslator.translator.utils.network.NetworkStateObservable
-
 
 class MainViewModel(
     private val interactor: MainInteractor,

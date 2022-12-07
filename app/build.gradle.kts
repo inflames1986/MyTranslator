@@ -100,5 +100,8 @@ dependencies {
     implementation (project(":screendetail"))
     implementation(project(":domain"))
     implementation(project(":model"))
+    implementation (project(":utils"))
+    implementation(project(":screenhistory"))
+    implementation(project(":screenfavourite"))
 }
 
