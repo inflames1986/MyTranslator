@@ -18,12 +18,16 @@ import com.inflames1986.mytranslator.translator.domain.repository.RepositoryLoca
 import com.inflames1986.mytranslator.translator.domain.repository.datasource.CacheDataSourceImpl
 import com.inflames1986.domain.repository.datasource.NetworkDataSourceImpl
 import com.inflames1986.mytranslator.translator.domain.storage.WordStorage
+import com.inflames1986.mytranslator.translator.view.main.MainFragment
 import com.inflames1986.screenfavourite.FavouriteInteractor
 import com.inflames1986.screenfavourite.FavouriteViewModel
 import com.inflames1986.screenhistory.HistoryInteractor
 import com.inflames1986.screenhistory.HistoryViewModel
 import com.inflames1986.mytranslator.translator.view.main.MainInteractor
 import com.inflames1986.mytranslator.translator.view.main.MainViewModel
+import com.inflames1986.screenfavourite.FavouriteFragment
+import com.inflames1986.screenhistory.HistoryFragment
+import com.inflames1986.utils.Di.DiConst
 import com.inflames1986.utils.network.NetworkStateObservable
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -44,19 +48,25 @@ object Di {
     private const val DATABASE_NAME = "translator_database"
 
     fun viewModelModule() = module {
-        viewModel {
-            MainViewModel(
-                interactor = get(),
-                networkState = get(),
-            )
+        scope<MainFragment> {
+            viewModel(qualifier = named(DiConst.MAIN_VIEW_MODEL)) {
+                MainViewModel(
+                    interactor = get(),
+                    networkState = get(),
+                )
+            }
         }
 
-        viewModel {
-            HistoryViewModel(interactor = get())
+        scope<HistoryFragment> {
+            viewModel(qualifier = named(DiConst.HISTORY_VIEW_MODEL)) {
+                HistoryViewModel(interactor = get())
+            }
         }
 
-        viewModel {
-            FavouriteViewModel(interactor = get())
+        scope<FavouriteFragment> {
+            viewModel(qualifier = named(DiConst.FAVOURITE_VIEW_MODEL)) {
+                FavouriteViewModel(interactor = get())
+            }
         }
     }
 
@@ -96,7 +106,11 @@ object Di {
 
         single<IRepositoryLocal> {
             RepositoryLocalImpl(
-                dataSource = CacheDataSourceImpl(get(named(PERSISTED)))
+                dataSource = CacheDataSourceImpl(
+                    get(
+                        named(PERSISTED)
+                    )
+                )
             )
         }
     }
