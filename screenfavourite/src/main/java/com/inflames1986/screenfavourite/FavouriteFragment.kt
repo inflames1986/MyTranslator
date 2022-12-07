@@ -14,18 +14,19 @@ import com.inflames1986.domain.storage.entity.WordFavourite
 import com.inflames1986.model.data.AppState
 import com.inflames1986.screendetail.DetailScreen
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.inflames1986.screenfavourite.adapter.FavouriteWordAdapter
 import com.inflames1986.screenfavourite.databinding.FragmentFavouriteBinding
+import com.inflames1986.utils.Di.DiConst
 import com.inflames1986.utils.mapFavouriteToTranslate
+import org.koin.android.ext.android.getKoin
+import org.koin.core.qualifier.named
 
 class FavouriteFragment : Fragment(R.layout.fragment_favourite), FavouriteWordAdapter.Delegate {
 
-    companion object {
-        fun newInstance() = FavouriteFragment()
-    }
+    private val scope = getKoin().createScope<FavouriteFragment>()
 
-    private val model: FavouriteViewModel by viewModel()
+    private val model: FavouriteViewModel =
+        scope.get(qualifier = named(name = DiConst.FAVOURITE_VIEW_MODEL))
     private lateinit var binding: FragmentFavouriteBinding
     private val favouriteWordAdapter by lazy { FavouriteWordAdapter(this) }
     private val router: Router by inject()
@@ -98,7 +99,9 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite), FavouriteWordAd
                         if (it.progress != null) {
                             progressBarHorizontal.isVisible = true
                             progressBarRound.isVisible = false
-                            progressBarHorizontal.progress = it.progress!!
+                            it.progress?.let { progress ->
+                                progressBarHorizontal.progress = progress
+                            }
                         } else {
                             progressBarHorizontal.isVisible = false
                             progressBarRound.isVisible = true
@@ -128,7 +131,9 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite), FavouriteWordAd
                         if (it.progress != null) {
                             progressBarHorizontal.isVisible = true
                             progressBarRound.isVisible = false
-                            progressBarHorizontal.progress = it.progress!!
+                            it.progress?.let { progress ->
+                                progressBarHorizontal.progress = progress
+                            }
                         } else {
                             progressBarHorizontal.isVisible = false
                             progressBarRound.isVisible = true
@@ -177,6 +182,16 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite), FavouriteWordAd
     }
 
     override fun onItemPicked(word: WordFavourite) {
-        router.navigateTo(DetailScreen(word = mapFavouriteToTranslate(word)))
+        router.navigateTo(
+            DetailScreen(
+                word = mapFavouriteToTranslate(
+                    word
+                )
+            )
+        )
+    }
+
+    companion object {
+        fun newInstance() = FavouriteFragment()
     }
 }

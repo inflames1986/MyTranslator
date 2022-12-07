@@ -17,15 +17,17 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.inflames1986.screendetail.DetailScreen
 import com.inflames1986.screenhistory.adapter.HistoryWordAdapter
 import com.inflames1986.screenhistory.databinding.FragmentHistoryBinding
+import com.inflames1986.utils.Di.DiConst
+import org.koin.android.ext.android.getKoin
+import org.koin.core.qualifier.named
 
 class HistoryFragment : Fragment(R.layout.fragment_history), HistoryWordAdapter.Delegate {
 
-    companion object {
-        fun newInstance() = HistoryFragment()
-    }
+    private val scope = getKoin().createScope<HistoryFragment>()
 
     private lateinit var binding: FragmentHistoryBinding
-    private val model: HistoryViewModel by viewModel()
+    private val model: HistoryViewModel =
+        scope.get(qualifier = named(name = DiConst.HISTORY_VIEW_MODEL))
     private val historyWordAdapter by lazy { HistoryWordAdapter(this) }
     private val router: Router by inject()
 
@@ -175,5 +177,9 @@ class HistoryFragment : Fragment(R.layout.fragment_history), HistoryWordAdapter.
 
     override fun onItemPicked(word: WordTranslate) {
         router.navigateTo(DetailScreen(word = word))
+    }
+
+    companion object {
+        fun newInstance() = HistoryFragment()
     }
 }
