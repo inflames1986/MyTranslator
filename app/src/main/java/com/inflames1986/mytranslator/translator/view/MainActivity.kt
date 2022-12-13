@@ -60,12 +60,12 @@ class MainActivity : AppCompatActivity() {
     private fun startAnimationAfterSplashScreen() {
         val splashScreen = installSplashScreen()
         var condition = true
-        splashScreen.setKeepOnScreenCondition{ condition }
+        splashScreen.setKeepVisibleCondition { condition }
 
         Executors.newSingleThreadExecutor().execute {
             Thread.sleep(SPLASH_SCREEN_DURATION)
             condition = false
-            splashScreen.setKeepOnScreenCondition{ condition }
+            splashScreen.setKeepVisibleCondition { condition }
         }
 
         splashScreen.setOnExitAnimationListener { splashScreenProvider ->

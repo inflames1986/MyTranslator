@@ -14,12 +14,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:name=".translator.AppTranslator"
         tools:targetApi="31">
         <activity
             android:name=".translator.view.MainActivity"
-            android:exported="true"
+            android:exported="true">
             android:theme="@style/AppThemeSplash"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

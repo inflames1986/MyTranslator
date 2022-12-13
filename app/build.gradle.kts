@@ -97,7 +97,7 @@ dependencies {
 
     implementation ("com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01")
 
-    implementation ("androidx.core:core-splashscreen:1.0.0")
+    implementation ("androidx.core:core-splashscreen:1.0.0-alpha02")
 
     implementation (project(":screendetail"))
     implementation(project(":domain"))
