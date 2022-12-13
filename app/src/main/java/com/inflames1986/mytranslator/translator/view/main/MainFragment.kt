@@ -1,8 +1,13 @@
 package com.inflames1986.mytranslator.translator.view.main
 
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,11 +28,11 @@ import com.inflames1986.model.data.AppState
 import com.inflames1986.model.data.DictionaryResult
 import com.inflames1986.mytranslator.R
 import com.inflames1986.mytranslator.databinding.FragmentMainBinding
-import com.inflames1986.mytranslator.translator.extensions.showSnakeBar
 import org.koin.android.ext.android.inject
 
 
 import com.inflames1986.mytranslator.translator.view.main.adapter.WordAdapter
+import com.inflames1986.mytranslator.translator.view.widget.AppWidget
 import com.inflames1986.screendetail.DetailScreen
 import com.inflames1986.utils.Di.DiConst
 import com.inflames1986.utils.mapToListWordTranslate
@@ -88,20 +93,14 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        /**
-         * Без этого кода и без model.reset() у меня начинаются задвоения и затроения
-         * т.е. если сделать поиск в истории и нажать назад, то первый раз переходим.
-         * После второго поиска, нужно нажать 2 раза, потом 3 и т.д. чтобы вернуться на стартовый
-         * экран. Как я понял у меня не вызывается метод у вьюмодели onCleared. Проблема вроде
-         * решена, теперь все стабильно. Но надо разобраться в чем дело или лучше использовать
-         * гугловскую навигацию.
-         */
         model.networkStateLiveData().removeObservers(requireActivity())
         model.translateLiveData().removeObservers(requireActivity())
         model.findHistoryLiveData().removeObservers(requireActivity())
         model.getNetworkState().removeObservers(requireActivity())
 
         init()
+
+        binding.searchEditText.requestFocus();
     }
 
     override fun onPause() {
@@ -117,11 +116,11 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                     if (view.text.isNotEmpty()) {
                         if (isNetworkAvailable) {
                             model.getData(view.text.toString(), isNetworkAvailable)
-                            hideKeyboardForTextView()
+                            visibleKeyboardForTextView()
                             true
                         } else {
                             wordAdapter.clear()
-                            hideKeyboardForTextView()
+                            visibleKeyboardForTextView()
                             noInternetMessageShow()
                             false
                         }
@@ -142,15 +141,13 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
             find.setOnClickListener {
                 if (isNetworkAvailable) {
                     model.getData(binding.searchEditText.text.toString(), isNetworkAvailable)
-                    hideKeyboardForTextView()
+                    visibleKeyboardForTextView()
                 } else {
-                    hideKeyboardForTextView()
+                    visibleKeyboardForTextView()
                     wordAdapter.clear()
                     noInternetMessageShow()
                 }
             }
-
-
         }
 
         with(mainRV) {
@@ -168,7 +165,6 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
 
         model.networkStateLiveData().observe(viewLifecycleOwner, Observer<Boolean> {
             isNetworkAvailable = it
-            binding.root.showSnakeBar(String.format(getString(R.string.internet_active), it))
         })
         model.getNetworkState()
         model.translateLiveData().observe(viewLifecycleOwner, Observer<AppState> {
@@ -180,6 +176,15 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
                         showViewSuccess()
                         wordAdapter.setData(ArrayList(mapToListWordTranslate(it.data as DictionaryResult)))
                         model.saveToHistory(it.data as DictionaryResult)
+                        sendWordToWidget(
+                            (it.data as DictionaryResult)
+                                .dictionaryEntryList[0]
+                                .text,
+                            (it.data as DictionaryResult)
+                                .dictionaryEntryList[0]
+                                .translatesList[0]
+                                .text
+                        )
                     }
                 }
                 is AppState.Loading -> {
@@ -325,14 +330,14 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
             else -> false
         }
 
-    private fun hideKeyboardForTextView() {
+    private fun visibleKeyboardForTextView() {
         val view = requireActivity().currentFocus
         view?.let {
             val inputMethodManager = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as
                     InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, INPUT_METHOD_MANAGER_FLAGS)
+            (it as? TextView)?.clearFocus()
         }
-        (view as? TextView)?.clearFocus()
     }
 
     private fun showErrorScreen(error: String?) {
@@ -341,12 +346,17 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
         binding.reloadButton.setOnClickListener {
             if (isNetworkAvailable) {
                 model.getData(binding.searchEditText.text.toString(), isNetworkAvailable)
-                hideKeyboardForTextView()
+                visibleKeyboardForTextView()
             } else {
-                hideKeyboardForTextView()
+                visibleKeyboardForTextView()
                 wordAdapter.clear()
                 noInternetMessageShow()
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            binding.searchInputLayout.setRenderEffect(null)
+            mainRV.setRenderEffect(null)
         }
     }
 
@@ -355,14 +365,26 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
             successFrame.isVisible = true
             loadingFrame.isVisible = false
             errorFrame.isVisible = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                mainRV.setRenderEffect(null)
+                searchInputLayout.setRenderEffect(null)
+            }
         }
     }
 
     private fun showViewLoading() {
+        val blurEffect = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            RenderEffect.createBlurEffect(16f, 16f, Shader.TileMode.CLAMP)
+        } else {
+            TODO("VERSION.SDK_INT < S")
+        }
         with(binding) {
-            successFrame.isVisible = false
             loadingFrame.isVisible = true
             errorFrame.isVisible = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                mainRV.setRenderEffect(blurEffect)
+                searchInputLayout.setRenderEffect(blurEffect)
+            }
         }
     }
 
@@ -386,9 +408,26 @@ class MainFragment : Fragment(R.layout.fragment_main), WordAdapter.Delegate {
         toast()
     }
 
+    private fun sendWordToWidget(word: String, translate: String) {
+        val intent = Intent(context, AppWidget::class.java)
+        intent.action = WIDGET_ACTION
+        intent.putExtra(INTENT_PUT_EXTRA_NAME, word)
+        intent.putExtra(INTENT_PUT_EXTRA_VALUE, translate)
+        PendingIntent.getBroadcast(
+            requireContext(),
+            REQUEST_CODE,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+            .send()
+    }
+
     companion object {
         private const val INPUT_METHOD_MANAGER_FLAGS = 0
-
+        private const val WIDGET_ACTION = "android.appwidget.action.APPWIDGET_UPDATE"
+        private const val REQUEST_CODE = 12
+        const val INTENT_PUT_EXTRA_NAME = "word"
+        const val INTENT_PUT_EXTRA_VALUE = "translate"
         fun newInstance(): Fragment = MainFragment()
     }
 }

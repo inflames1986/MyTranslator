@@ -19,7 +19,9 @@
         tools:targetApi="31">
         <activity
             android:name=".translator.view.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppThemeSplash"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
